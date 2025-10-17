@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bulk Exchange Quiz</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="quiz-container">
+    <h1>Bulk Exchange Quiz</h1>
+    <div id="quiz"></div>
+    <button id="submit">Submit Quiz</button>
+    <div id="results"></div>
+  </div>
+
+  <script>
+    const quizData = [
+      {
+        question: "What is the core goal of Bulk Exchange?",
+        a: "To offer a lending protocol for stablecoins",
+        b: "To deliver colocation-grade orderbook performance on-chain",
+        c: "To act as an NFT marketplace",
+        d: "To provide gas-free transfers",
+        correct: "b",
+      },
+      {
+        question: "Which performance gap is Bulk trying to close in DeFi?",
+        a: "Decentralized identity",
+        b: "Asset custody risks",
+        c: "High-frequency orderbook trading performance",
+        d: "Yield farming optimization",
+        correct: "c",
+      },
+      {
+        question: "What principle does Bulk uphold even while improving performance?",
+        a: "Centralization for speed",
+        b: "Censorship resistance and permissionless access",
+        c: "Off-chain custody",
+        d: "Single point of failure",
+        correct: "b",
+      },
+      {
+        question: "Which of these is part of the Bulk T1 architecture section in docs?",
+        a: "Staking pools",
+        b: "Order propagation",
+        c: "Liquidity mining",
+        d: "Derivatives settlement",
+        correct: "b",
+      },
+      {
+        question: "What consensus method is mentioned in Bulk’s documentation?",
+        a: "Proof of Work",
+        b: "Delegated Proof of Stake",
+        c: "Leaderless consensus",
+        d: "Proof of History",
+        correct: "c",
+      },
+      {
+        question: "In Bulk’s exchange design, what component handles matching of orders?",
+        a: "Validator staking",
+        b: "Matching engine",
+        c: "Liquidity router",
+        d: "Fee aggregator",
+        correct: "b",
+      },
+      {
+        question: "Which order types are covered in Bulk’s docs?",
+        a: "Market and Limit only",
+        b: "Stop-limit only",
+        c: "Take Profit & Stop Loss orders (TP/SL)",
+        d: "Flash loan orders",
+        correct: "c",
+      },
+      {
+        question: "What risk management feature does Bulk include?",
+        a: "Auto Deleveraging",
+        b: "Loan defaults",
+        c: "Collateral auctions",
+        d: "Stablecoin peg enforcement",
+        correct: "a",
+      },
+      {
+        question: "Which concept helps prevent users from matching with themselves?",
+        a: "Self-trade Prevention",
+        b: "Anti-frontrunning",
+        c: "Slippage protection",
+        d: "Flash swap guard",
+        correct: "a",
+      },
+      {
+        question: "What topic is under the “Bulk Exchange” section in the docs?",
+        a: "NFT minting",
+        b: "Orderbook & entry pricing / PnL",
+        c: "Gas token burning",
+        d: "Governance voting",
+        correct: "b",
+      },
+    ];
+
+    const quizContainer = document.getElementById("quiz");
+    const resultsContainer = document.getElementById("results");
+    const submitButton = document.getElementById("submit");
+
+    function buildQuiz() {
+      const output = quizData.map((q, i) => {
+        return `
+          <div class="question">${i + 1}. ${q.question}</div>
+          <div class="answers">
+            <label><input type="radio" name="question${i}" value="a"> ${q.a}</label><br>
+            <label><input type="radio" name="question${i}" value="b"> ${q.b}</label><br>
+            <label><input type="radio" name="question${i}" value="c"> ${q.c}</label><br>
+            <label><input type="radio" name="question${i}" value="d"> ${q.d}</label><br>
+          </div>
+        `;
+      });
+      quizContainer.innerHTML = output.join("");
+    }
+
+    function showResults() {
+      const answerContainers = quizContainer.querySelectorAll(".answers");
+      let score = 0;
+
+      quizData.forEach((q, i) => {
+        const answerContainer = answerContainers[i];
+        const selector = `input[name=question${i}]:checked`;
+        const userAnswer = (answerContainer.querySelector(selector) || {}).value;
+
+        if (userAnswer === q.correct) {
+          score++;
+          answerContainers[i].style.color = "green";
+        } else {
+          answerContainers[i].style.color = "red";
+        }
+      });
+
+      resultsContainer.innerHTML = `<h2>You scored ${score} out of ${quizData.length}</h2>`;
+    }
+
+    buildQuiz();
+    submitButton.addEventListener("click", showResults);
+  </script>
+
+  <!-- ✅ Vercel Speed Insights (for static HTML sites) -->
+  <script defer src="https://cdn.vercel-insights.com/v1/script.debug.js"></script>
+</body>
+</html>
